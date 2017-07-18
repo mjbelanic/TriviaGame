@@ -1,0 +1,55 @@
+/*
+yellow = #EDB83D
+blue = #000b29
+red = #D70026
+pearl = #F8F5F2
+*/
+body{
+	background-image: url("../images/zwartevilt.png");
+}
+
+header{
+	background-color: #EDB83D;
+	margin: 0 0 30px;
+	z-index: 99;
+	overflow: auto;
+	border-bottom: 10px solid  #D70026;
+    width: 100%
+}
+
+h1{
+	text-align: center;
+}
+
+h3{
+	text-align: center;
+}
+
+#timer{
+	border: 1px solid red;
+}
+
+.panel-heading{
+	background-color: #EDB83D;
+	text-align: center;
+}
+
+.panel-body{
+	background-color: #F8F5F2;
+	color: #000b29;
+}
+
+.panel-title{
+	text-align: center;
+}
+
+.ans{
+	padding: 10px;
+	margin: 10px auto; 
+	border: 1px solid black;
+}
+
+.ans:hover{
+	background-color: black;
+	color: white;
+}
