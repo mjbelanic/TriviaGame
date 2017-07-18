@@ -75,6 +75,7 @@ $(document).ready(function(){
 	var wrong2;
 	var wrong3;
 	var questionArray = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10];
+	var ansLocation;
 
 	var Timer = {
 		  clockRunning: false,
@@ -112,10 +113,13 @@ $(document).ready(function(){
 			    var converted = Timer.timeConverter(Timer.time);
 			    $("#timer").html(converted);
 			}else{
-				Timer.stop();
 				TriviaGame.notAnswered += 1;
 				TriviaGame.RevealAns(null);
+				Timer.start(15);
+				setTimeout(function(){
 				TriviaGame.CheckQuestionList(TriviaGame.questions);
+				}
+				,15000)
 			}
 		  },
 
@@ -168,6 +172,10 @@ $(document).ready(function(){
 		},
 
 		PickRandomQuestion: function(array){
+			$("#playerChoice").attr("style" , "display: none");
+			$("#rightChoice").attr("style" , "display: none");
+			$("#timeScore").attr("style" , "display: none");
+			$(".ans").attr("style", "display:block");	
 			TriviaGame.choosenQuestion = array[Math.floor(Math.random() * array.length)];
 			TriviaGame.questions.splice(array.indexOf(TriviaGame.choosenQuestion), 1);
 			Timer.reset(30);
@@ -183,10 +191,12 @@ $(document).ready(function(){
 			$("#image").attr("src", TriviaGame.choosenQuestion.img);
 			//for loop 1 to 4, giving a random number to each
 			this.numberArray = TriviaGame.ShuffleArray(this.numberArray);
-			$("#" + TriviaGame.numberArray[0]).html(right);
-			$("#" + TriviaGame.numberArray[1]).html(wrong1);
-			$("#" + TriviaGame.numberArray[2]).html(wrong2);
-			$("#" + TriviaGame.numberArray[3]).html(wrong3);
+			$("#" + this.numberArray[0]).html(right);
+			ansLocation = $("#"+this.numberArray[0]);
+			ansLocation.attr("style", "background-color: none");
+			$("#" + this.numberArray[1]).html(wrong1);
+			$("#" + this.numberArray[2]).html(wrong2);
+			$("#" + this.numberArray[3]).html(wrong3);
 			Timer.start(30);
 		},
 
@@ -224,11 +234,29 @@ $(document).ready(function(){
 		},
 
 		RevealAns:function(choice){
-			if(choice !== TriviaGame.choosenQuestion.Rans && choice !== null){
-				Timer.start(10);
-				$("#question").html(TriviaGame.choosenQuestion.explain);
+			$(".ans").attr("style", "display:none");
+			if(choice !== null){
+				$("#question").html(this.choosenQuestion.explain);
+				$("#playerChoice").html("<h3>Your choice: </h3><br/><h4>" + choice.html() + "</h4>");
+				$("#timeScore").html("<h3>Your current time score is: </h3><br/><h4>" + this.score + "</h4>");
+				$("#rightChoice").html("<h3>The Answer Was: </h3><br/><h4>" + this.choosenQuestion.RAns + "</h4>");
 				$("#image").attr("style","display: block");
-				choice.attr("display", "background-color: red");
+				$("#image").attr("style", "width: 25%");
+				$("#image").attr("style", "height:auto");
+				$("#playerChoice").attr("style" , "display: block");
+				$("#rightChoice").attr("style" , "display: block");	
+				$("#timeScore").attr("style" , "display: block");	
+			}else{
+				$("#question").html(this.choosenQuestion.explain);
+				$("#playerChoice").html("<h3>Your choice: </h3><br/><h4>You didn't answer!</h4>");
+				$("#timeScore").html("<h3>Your current time score is: </h3><br/><h4>" + this.score + "</h4>");
+				$("#rightChoice").html("<h3>The Answer Was: </h3><br/><h4>" + this.choosenQuestion.RAns + "</h4>");
+				$("#image").attr("style","display: block");
+				$("#image").attr("style", "width: 25%");
+				$("#image").attr("style", "height:auto");
+				$("#playerChoice").attr("style" , "display: block");
+				$("#rightChoice").attr("style" , "display: block");	
+				$("#timeScore").attr("style" , "display: block");	
 			}
 		},
 
@@ -241,12 +269,21 @@ $(document).ready(function(){
 			TriviaGame.correctCount += 1;
 			TriviaGame.score += Timer.time;
 			TriviaGame.RevealAns(choiceElement);
-			TriviaGame.CheckQuestionList(TriviaGame.questions)
+			Timer.start(15);
+			setTimeout(function(){
+				TriviaGame.CheckQuestionList(TriviaGame.questions);
+			}
+				,15000)
+			
 		}else{
 			TriviaGame.incorrectCount += 1;
 			TriviaGame.score -= Timer.time;
 			TriviaGame.RevealAns(choiceElement);
-			TriviaGame.CheckQuestionList(TriviaGame.questions);
+			Timer.start(15);
+			setTimeout(function(){
+				TriviaGame.CheckQuestionList(TriviaGame.questions);
+			}
+				,15000)
 		}
 	})
 
